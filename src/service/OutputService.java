@@ -17,6 +17,10 @@ import java.util.List;
  */
 public class OutputService {
 
+    private OutputService() {
+        super();
+    }
+
     /**
      * This method executes the search algorithm starting from the provided root node.
      * If the root node represents the target, no search is performed.
@@ -107,7 +111,7 @@ public class OutputService {
      * @param outputFile PrintWriter to write the output.
      */
     public static void printNumOfNodesGenerated(PrintWriter outputFile) {
-        outputFile.println("Num of nodes generated: " + Node.getNumNodes());
+        outputFile.println(String.format("Num of nodes generated: %d", Node.getNumNodes()));
     }
 
     /**
@@ -119,7 +123,7 @@ public class OutputService {
      */
     public static void printPathCost(PrintWriter outputFile, Node root, Node targetNode) {
         if (targetNode != null && targetNode != root) {
-            outputFile.println("Path cost: " + targetNode.getWeight());
+            outputFile.println(String.format("Path cost: %d", targetNode.getWeight()));
         }
     }
 
@@ -130,8 +134,7 @@ public class OutputService {
      * @param start      the start time in milliseconds.
      */
     public static void printExecutionTime(PrintWriter outputFile, long start) {
-        long end = System.currentTimeMillis();
-        double duration = (end - start) / 1000.0;
-        outputFile.println(duration + " seconds");
+        double duration = (System.currentTimeMillis() - start) / 1000.0;
+        outputFile.println(String.format("%.3f seconds", duration));
     }
 }

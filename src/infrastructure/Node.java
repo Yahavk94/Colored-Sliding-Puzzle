@@ -19,12 +19,12 @@ public abstract class Node extends State {
     private String edgeTagFromParent;
 
     // unique identifier for each node
-    public final long ID = numNodes++;
+    public final long id = numNodes++;
 
     /**
      * This method constructs the input node.
      */
-    public Node() {
+    protected Node() {
         super();
         setEdgeTagFromParent("");
     }
@@ -35,7 +35,7 @@ public abstract class Node extends State {
      * @param parent             the parent of the new node.
      * @param generatingOperator the generating operator used to reach the new node from the parent.
      */
-    public Node(Node parent, GeneratingOperator generatingOperator) {
+    protected Node(Node parent, GeneratingOperator generatingOperator) {
         super(parent);
         setWeight(parent.weight);
         setParent(parent);

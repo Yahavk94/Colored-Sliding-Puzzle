@@ -22,7 +22,7 @@ public abstract class State {
     /**
      * This method constructs the input state.
      */
-    public State() {
+    protected State() {
         setBoard(InputParser.parseInputBoard());
         setEmptyPieceIndex(InfrastructureService.findEmptyPieceIndex(board));
     }
@@ -32,7 +32,7 @@ public abstract class State {
      *
      * @param state the state to copy.
      */
-    public State(State state) {
+    protected State(State state) {
         setBoard(new ArrayList<>(state.board));
         setEmptyPieceIndex(state.emptyPieceIndex);
     }

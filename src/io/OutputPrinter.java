@@ -18,6 +18,10 @@ import static constants.IOConstants.OUTPUT_FILE_NAME;
  */
 public class OutputPrinter {
 
+    private OutputPrinter() {
+        super();
+    }
+
     /**
      * This method prints the search output to a file.
      *

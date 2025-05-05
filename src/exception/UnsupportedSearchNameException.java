@@ -13,6 +13,6 @@ public class UnsupportedSearchNameException extends IllegalArgumentException {
      * @param searchName the unsupported search name that triggered the exception.
      */
     public UnsupportedSearchNameException(String searchName) {
-        super("Unsupported search name: " + searchName + ".");
+        super(String.format("Unsupported search name: '%s'.", searchName));
     }
 }

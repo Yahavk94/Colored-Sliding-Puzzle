@@ -12,4 +12,8 @@ public class IOConstants {
     public static final String NUMERIC_VALUES_DELIMITER = ",";
 
     public static final String OUTPUT_FILE_NAME = "Output.txt";
+
+    private IOConstants() {
+        super();
+    }
 }

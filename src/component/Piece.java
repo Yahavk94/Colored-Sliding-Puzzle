@@ -127,9 +127,9 @@ public class Piece {
     @Override
     public String toString() {
         if (isEmpty()) {
-            return "(EMPTY)";
+            return "[EMPTY]";
         }
 
-        return "(" + rawData + "," + color + ")";
+        return String.format("[%s, %s]", rawData, color);
     }
 }

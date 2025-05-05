@@ -15,7 +15,7 @@ public abstract class InformedNode extends Node implements Comparable<InformedNo
     /**
      * This method constructs the input node.
      */
-    public InformedNode() {
+    protected InformedNode() {
         super();
     }
 
@@ -25,7 +25,7 @@ public abstract class InformedNode extends Node implements Comparable<InformedNo
      * @param parent             the parent of the new node.
      * @param generatingOperator the generating operator used to reach the new node from the parent.
      */
-    public InformedNode(Node parent, GeneratingOperator generatingOperator) {
+    protected InformedNode(Node parent, GeneratingOperator generatingOperator) {
         super(parent, generatingOperator);
     }
 
@@ -74,6 +74,6 @@ public abstract class InformedNode extends Node implements Comparable<InformedNo
     @Override
     public int compareTo(InformedNode informedNode) {
         int fComp = Integer.compare(f, informedNode.f);
-        return fComp != 0 ? fComp : Long.compare(ID, informedNode.ID);
+        return fComp != 0 ? fComp : Long.compare(id, informedNode.id);
     }
 }

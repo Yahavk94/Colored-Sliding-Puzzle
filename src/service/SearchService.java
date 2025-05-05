@@ -21,6 +21,10 @@ import static constants.SearchConstants.*;
  */
 public class SearchService {
 
+    private SearchService() {
+        super();
+    }
+
     /**
      * This method expands the provided node based on the generating operator.
      *

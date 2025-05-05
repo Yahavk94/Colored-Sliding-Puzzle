@@ -9,6 +9,10 @@ import static component.Dimension.NUM_OF_COLS;
  */
 public class PointService {
 
+    private PointService() {
+        super();
+    }
+
     /**
      * This method converts a 1D index to the corresponding row index in a 2D space.
      *

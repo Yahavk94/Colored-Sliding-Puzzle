@@ -17,4 +17,8 @@ public class ComponentConstants {
     public static final int BOTTOM_ROW = NUM_OF_ROWS - 1;
     public static final int LEFTMOST_COLUMN = 0;
     public static final int RIGHTMOST_COLUMN = NUM_OF_COLS - 1;
+
+    private ComponentConstants() {
+        super();
+    }
 }

@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
  */
 public class StringService {
 
+    private StringService() {
+        super();
+    }
+
     /**
      * This method tokenizes the provided string into a list using the specified delimiter.
      *

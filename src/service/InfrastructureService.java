@@ -20,6 +20,10 @@ public class InfrastructureService {
 
     private static final List<String> targetRawBoard = createTargetRawBoard();
 
+    private InfrastructureService() {
+        super();
+    }
+
     /**
      * This method creates the target raw board.
      *

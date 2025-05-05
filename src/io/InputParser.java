@@ -24,6 +24,10 @@ public class InputParser {
 
     private static final List<String> inputLines = readInputLines();
 
+    private InputParser() {
+        super();
+    }
+
     /**
      * This method reads all lines from the input file and returns them as a list of strings.
      *
@@ -32,9 +36,7 @@ public class InputParser {
      */
     private static List<String> readInputLines() {
         List<String> inputLines = new ArrayList<>();
-        try {
-            File file = new File(INPUT_FILE_NAME);
-            Scanner scanner = new Scanner(file);
+        try (Scanner scanner = new Scanner(new File(INPUT_FILE_NAME))) {
             while (scanner.hasNext()) {
                 String inputLine = scanner.nextLine().trim();
                 if (!inputLine.isEmpty()) {

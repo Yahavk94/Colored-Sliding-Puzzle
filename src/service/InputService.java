@@ -18,6 +18,10 @@ import static constants.IOConstants.NUMERIC_VALUES_DELIMITER;
  */
 public class InputService {
 
+    private InputService() {
+        super();
+    }
+
     /**
      * This method extracts the numeric values from the provided input line.
      *

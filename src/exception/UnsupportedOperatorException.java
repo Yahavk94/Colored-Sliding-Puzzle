@@ -15,6 +15,6 @@ public class UnsupportedOperatorException extends IllegalArgumentException {
      * @param generatingOperator the unsupported generating operator that triggered the exception.
      */
     public UnsupportedOperatorException(GeneratingOperator generatingOperator) {
-        super("Unsupported generating operator: " + generatingOperator + ".");
+        super(String.format("Unsupported generating operator: '%s'.", generatingOperator));
     }
 }
