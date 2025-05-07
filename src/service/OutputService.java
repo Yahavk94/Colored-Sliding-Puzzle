@@ -4,7 +4,7 @@ import exception.UnsupportedSearchNameException;
 import infrastructure.InformedDepthFirstNode;
 import infrastructure.Node;
 import io.InputParser;
-import search.algorithm.*;
+import search.*;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;

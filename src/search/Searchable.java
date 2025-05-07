@@ -1,4 +1,4 @@
-package search.algorithm;
+package search;
 
 import infrastructure.InformedDepthFirstNode;
 import infrastructure.Node;

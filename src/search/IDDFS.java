@@ -1,10 +1,12 @@
-package search.algorithm;
+package search;
 
 import component.GeneratingOperator;
 import infrastructure.InformedDepthFirstNode;
 import infrastructure.Node;
-import search.data.DepthFirstData;
 import service.SearchService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents Iterative-Deepening Depth-First Search algorithm for searching in a state space.
@@ -23,9 +25,8 @@ public class IDDFS implements Searchable {
      */
     @Override
     public Node search(InformedDepthFirstNode root) {
-        DepthFirstData depthFirstData = new DepthFirstData();
         for (int i = 1; i < DEPTH_LIMIT; i++) {
-            Node targetNode = depthLimitedSearch(root, i, depthFirstData);
+            Node targetNode = depthLimitedSearch(root, i, new HashMap<>());
             if (targetNode != null) {
                 return targetNode;
             }
@@ -37,30 +38,30 @@ public class IDDFS implements Searchable {
     /**
      * This method performs depth-limited search from the provided node up to the remaining depth.
      *
-     * @param node           the node being expanded.
-     * @param depth          the remaining depth for the search.
-     * @param depthFirstData the data structure designed for Depth-First algorithms.
+     * @param node          the node being expanded.
+     * @param depth         the remaining depth for the search.
+     * @param loopAvoidance the map that tracks visited nodes to prevent cycles during the search.
      * @return The target node if found, or null if depth limit reached.
      */
-    private Node depthLimitedSearch(Node node, int depth, DepthFirstData depthFirstData) {
+    private Node depthLimitedSearch(Node node, int depth, Map<String, Node> loopAvoidance) {
         if (node.isTarget()) {
             return node;
         }
 
         if (depth > 0) {
             String nodeCode = node.toString();
-            depthFirstData.putInLoopAvoidance(nodeCode, node);
+            loopAvoidance.put(nodeCode, node);
             for (GeneratingOperator generatingOperator : GeneratingOperator.values()) {
                 Node neighbor = SearchService.expandNode(node, generatingOperator);
-                if (neighbor != null && depthFirstData.isNotInLoopAvoidance(neighbor)) {
-                    Node targetNode = depthLimitedSearch(neighbor, depth - 1, depthFirstData);
+                if (neighbor != null && !loopAvoidance.containsKey(neighbor.toString())) {
+                    Node targetNode = depthLimitedSearch(neighbor, depth - 1, loopAvoidance);
                     if (targetNode != null) {
                         return targetNode;
                     }
                 }
             }
 
-            depthFirstData.removeFromLoopAvoidance(nodeCode);
+            loopAvoidance.remove(nodeCode);
         }
 
         return null;

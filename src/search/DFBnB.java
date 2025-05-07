@@ -1,14 +1,11 @@
-package search.algorithm;
+package search;
 
 import component.GeneratingOperator;
 import infrastructure.InformedDepthFirstNode;
 import infrastructure.Node;
-import search.data.DFBnBData;
 import service.SearchService;
 
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 import static constants.SearchConstants.POTENTIAL;
 import static constants.SearchConstants.TARGET;
@@ -28,18 +25,20 @@ public class DFBnB implements Searchable {
      */
     @Override
     public Node search(InformedDepthFirstNode root) {
+        Stack<InformedDepthFirstNode> stack = new Stack<>();
+        Map<String, InformedDepthFirstNode> loopAvoidance = new HashMap<>();
         DFBnBData dfbnbData = new DFBnBData();
-        dfbnbData.resetSearchLimit();
         root.unmark();
-        dfbnbData.addInStackAndLoopAvoidance(root);
-        while (dfbnbData.hasNotEmptyStack()) {
-            InformedDepthFirstNode node = dfbnbData.popFromStack();
+        stack.push(root);
+        loopAvoidance.put(root.toString(), root);
+        while (!stack.isEmpty()) {
+            InformedDepthFirstNode node = stack.pop();
             if (node.isMarked()) {
-                dfbnbData.removeFromLoopAvoidance(node);
+                loopAvoidance.remove(node.toString());
             } else {
                 node.mark();
-                dfbnbData.pushToStack(node);
-                visitNeighbors(node, dfbnbData);
+                stack.push(node);
+                visitNeighbors(node, stack, loopAvoidance, dfbnbData);
             }
         }
 
@@ -49,14 +48,18 @@ public class DFBnB implements Searchable {
     /**
      * This method visits the neighbors of the provided node in the search space and processes them.
      *
-     * @param node      the node being expanded.
-     * @param dfbnbData the data structure designed for DFBnB algorithm.
+     * @param node          the node being expanded.
+     * @param stack         the DFS stack.
+     * @param loopAvoidance the map that tracks visited nodes to prevent cycles during the search.
+     * @param dfbnbData     the data object storing the current best result and limit.
      */
-    private void visitNeighbors(InformedDepthFirstNode node, DFBnBData dfbnbData) {
+    private void visitNeighbors(InformedDepthFirstNode node, Stack<InformedDepthFirstNode> stack, Map<String, InformedDepthFirstNode> loopAvoidance, DFBnBData dfbnbData) {
         Queue<InformedDepthFirstNode> pq = createNeighbors(node, dfbnbData);
-        Stack<InformedDepthFirstNode> candidates = extractCandidates(pq, dfbnbData);
+        Stack<InformedDepthFirstNode> candidates = extractCandidates(pq, loopAvoidance, dfbnbData);
         while (!candidates.isEmpty()) {
-            dfbnbData.addInStackAndLoopAvoidance(candidates.pop());
+            InformedDepthFirstNode candidate = candidates.pop();
+            stack.push(candidate);
+            loopAvoidance.put(candidate.toString(), candidate);
         }
     }
 
@@ -64,7 +67,7 @@ public class DFBnB implements Searchable {
      * This method creates neighbors from the provided node and returns them in a priority queue.
      *
      * @param node      the node from which neighbors are created.
-     * @param dfbnbData the data structure designed for DFBnB algorithm.
+     * @param dfbnbData the data object storing the current best result and limit.
      * @return A priority queue containing the created neighbors.
      */
     private Queue<InformedDepthFirstNode> createNeighbors(InformedDepthFirstNode node, DFBnBData dfbnbData) {
@@ -85,15 +88,16 @@ public class DFBnB implements Searchable {
     /**
      * This method extracts candidate nodes from the provided priority queue and returns them in a stack.
      *
-     * @param pq        the priority queue containing neighbors.
-     * @param dfbnbData the data structure designed for DFBnB algorithm.
+     * @param pq            the priority queue containing neighbors.
+     * @param loopAvoidance the map that tracks visited nodes to prevent cycles during the search.
+     * @param dfbnbData     the data object storing the current best result and limit.
      * @return A stack of extracted candidate nodes.
      */
-    private Stack<InformedDepthFirstNode> extractCandidates(Queue<InformedDepthFirstNode> pq, DFBnBData dfbnbData) {
+    private Stack<InformedDepthFirstNode> extractCandidates(Queue<InformedDepthFirstNode> pq, Map<String, InformedDepthFirstNode> loopAvoidance, DFBnBData dfbnbData) {
         Stack<InformedDepthFirstNode> candidates = new Stack<>();
         while (!pq.isEmpty()) {
             InformedDepthFirstNode neighbor = pq.remove();
-            String tag = SearchService.tagNeighbor(neighbor, dfbnbData);
+            String tag = SearchService.tagNeighbor(neighbor, loopAvoidance);
             if (POTENTIAL.equals(tag)) {
                 candidates.push(neighbor);
             } else if (TARGET.equals(tag)) {
@@ -104,5 +108,27 @@ public class DFBnB implements Searchable {
         }
 
         return candidates;
+    }
+
+    private static class DFBnBData {
+
+        private Node targetNode;
+        private int searchLimit = Integer.MAX_VALUE;
+
+        public Node getTargetNode() {
+            return targetNode;
+        }
+
+        public void setTargetNode(Node targetNode) {
+            this.targetNode = targetNode;
+        }
+
+        public int getSearchLimit() {
+            return searchLimit;
+        }
+
+        public void setSearchLimit(int searchLimit) {
+            this.searchLimit = searchLimit;
+        }
     }
 }

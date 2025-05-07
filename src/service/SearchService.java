@@ -7,9 +7,9 @@ import exception.UnsupportedOperatorException;
 import infrastructure.InformedDepthFirstNode;
 import infrastructure.Node;
 import infrastructure.State;
-import search.data.InformedDepthFirstData;
 
 import java.util.Collections;
+import java.util.Map;
 
 import static component.Dimension.NUM_OF_COLS;
 import static constants.SearchConstants.*;
@@ -139,13 +139,13 @@ public class SearchService {
     /**
      * This method tags the provided neighbor based on loop avoidance and target conditions.
      *
-     * @param neighbor               the neighbor being considered.
-     * @param neighborCode           the unique code representing the neighbor.
-     * @param informedDepthFirstData the data structure designed for informed DFS algorithms.
+     * @param neighbor      the neighbor being considered.
+     * @param neighborCode  the unique code representing the neighbor.
+     * @param loopAvoidance the map that tracks visited nodes to prevent cycles during the search.
      * @return A string indicating the tag of the neighbor (TARGET, POTENTIAL or REDUNDANT).
      */
-    public static String tagNeighbor(InformedDepthFirstNode neighbor, String neighborCode, InformedDepthFirstData informedDepthFirstData) {
-        if (informedDepthFirstData.isNotInLoopAvoidance(neighborCode)) {
+    public static String tagNeighbor(InformedDepthFirstNode neighbor, String neighborCode, Map<String, InformedDepthFirstNode> loopAvoidance) {
+        if (!loopAvoidance.containsKey(neighborCode)) {
             if (neighbor.isTarget()) {
                 return TARGET;
             }
@@ -153,7 +153,7 @@ public class SearchService {
             return POTENTIAL;
         }
 
-        InformedDepthFirstNode node = (InformedDepthFirstNode)informedDepthFirstData.getFromLoopAvoidance(neighborCode);
+        InformedDepthFirstNode node = loopAvoidance.get(neighborCode);
         if (node.isNotMarked() && neighbor.getF() < node.getF()) {
             node.mark();
             return POTENTIAL;
@@ -165,11 +165,11 @@ public class SearchService {
     /**
      * This method tags the provided neighbor based on loop avoidance and target conditions.
      *
-     * @param neighbor               the neighbor being considered.
-     * @param informedDepthFirstData the data structure designed for informed DFS algorithms.
+     * @param neighbor      the neighbor being considered.
+     * @param loopAvoidance the map that tracks visited nodes to prevent cycles during the search.
      * @return A string indicating the tag of the neighbor (TARGET, POTENTIAL or REDUNDANT).
      */
-    public static String tagNeighbor(InformedDepthFirstNode neighbor, InformedDepthFirstData informedDepthFirstData) {
-        return tagNeighbor(neighbor, neighbor.toString(), informedDepthFirstData);
+    public static String tagNeighbor(InformedDepthFirstNode neighbor, Map<String, InformedDepthFirstNode> loopAvoidance) {
+        return tagNeighbor(neighbor, neighbor.toString(), loopAvoidance);
     }
 }
