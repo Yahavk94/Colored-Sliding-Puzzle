@@ -1,13 +1,12 @@
 package infrastructure;
 
+import component.Dimension;
 import component.Piece;
 import io.InputParser;
 import service.InfrastructureService;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static component.Dimension.BOARD_SIZE;
 
 /**
  * This class represents a configuration of the puzzle.
@@ -79,9 +78,9 @@ public abstract class State {
      * @return true if the state represents the target pattern, false otherwise.
      */
     public boolean isTarget() {
-        List<String> targetRawBoard = InfrastructureService.getTargetRawBoard();
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            String rawData = board.get(i).getRawData();
+        List<String> targetRawBoard = InfrastructureService.targetRawBoard;
+        for (int i = 0; i < Dimension.BOARD_SIZE; i++) {
+            String rawData = board.get(i).rawData();
             String targetRawData = targetRawBoard.get(i);
             if (!rawData.equals(targetRawData)) {
                 return false;

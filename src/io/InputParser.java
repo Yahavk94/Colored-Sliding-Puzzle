@@ -1,6 +1,7 @@
 package io;
 
 import component.Piece;
+import constants.IOConstants;
 import exception.InputFileProcessingException;
 import service.InputService;
 import service.StringService;
@@ -13,8 +14,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static constants.IOConstants.*;
-
 /**
  * This class represents an input parser responsible for parsing input data.
  *
@@ -24,10 +23,6 @@ public class InputParser {
 
     private static final List<String> inputLines = readInputLines();
 
-    private InputParser() {
-        super();
-    }
-
     /**
      * This method reads all lines from the input file and returns them as a list of strings.
      *
@@ -36,7 +31,7 @@ public class InputParser {
      */
     private static List<String> readInputLines() {
         List<String> inputLines = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File(INPUT_FILE_NAME))) {
+        try (Scanner scanner = new Scanner(new File(IOConstants.INPUT_FILE_NAME))) {
             while (scanner.hasNext()) {
                 String inputLine = scanner.nextLine().trim();
                 if (!inputLine.isEmpty()) {
@@ -65,7 +60,7 @@ public class InputParser {
      * @return The parsed dimensions of the puzzle.
      */
     public static List<Integer> parseDimensions() {
-        return StringService.tokenizeIntoList(inputLines.get(1), DIMENSION_DELIMITER)
+        return StringService.tokenizeIntoList(inputLines.get(1), IOConstants.DIMENSION_DELIMITER)
                             .stream()
                             .map(Integer::valueOf)
                             .collect(Collectors.toList());
@@ -97,8 +92,11 @@ public class InputParser {
     private static List<String> parseInputRawBoard() {
         return inputLines.subList(4, inputLines.size())
                          .stream()
-                         .map(inputLine -> StringService.tokenizeIntoList(inputLine, NUMERIC_VALUES_DELIMITER))
+                         .map(inputLine -> StringService.tokenizeIntoList(inputLine, IOConstants.NUMERIC_VALUES_DELIMITER))
                          .flatMap(List::stream)
                          .collect(Collectors.toList());
+    }
+
+    private InputParser() {
     }
 }

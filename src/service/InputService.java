@@ -2,14 +2,12 @@ package service;
 
 import component.Color;
 import component.Piece;
+import constants.IOConstants;
 import exception.UnexpectedFixedPieceException;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static component.Color.*;
-import static constants.IOConstants.NUMERIC_VALUES_DELIMITER;
 
 /**
  * This class provides a set of methods for assisting the InputParser class.
@@ -17,10 +15,6 @@ import static constants.IOConstants.NUMERIC_VALUES_DELIMITER;
  * @author Yahav Karpel
  */
 public class InputService {
-
-    private InputService() {
-        super();
-    }
 
     /**
      * This method extracts the numeric values from the provided input line.
@@ -30,7 +24,7 @@ public class InputService {
      */
     public static Set<String> extractNumericValues(String inputLine) {
         String afterColon = StringService.extractAfterColon(inputLine);
-        List<String> numericValues = StringService.tokenizeIntoList(afterColon, NUMERIC_VALUES_DELIMITER);
+        List<String> numericValues = StringService.tokenizeIntoList(afterColon, IOConstants.NUMERIC_VALUES_DELIMITER);
         return new HashSet<>(numericValues);
     }
 
@@ -48,7 +42,7 @@ public class InputService {
             Color color = determinePieceColor(rawData, grayPieces, redPieces);
             return new Piece(rawData, data, color);
         } catch (NumberFormatException e) {
-            return new Piece();
+            return ComponentService.emptyPiece;
         }
     }
 
@@ -72,14 +66,14 @@ public class InputService {
      */
     private static Color determinePieceColor(String rawData, Set<String> grayPieces, Set<String> redPieces) {
         if (grayPieces.contains(rawData)) {
-            return GRAY;
+            return Color.GRAY;
         }
 
         if (redPieces.contains(rawData)) {
-            return RED;
+            return Color.RED;
         }
 
-        return GREEN;
+        return Color.GREEN;
     }
 
     /**
@@ -91,9 +85,12 @@ public class InputService {
     public static void verifyBoard(List<Piece> board) {
         for (int i = 0; i < board.size(); i++) {
             Piece piece = board.get(i);
-            if (piece.isFixedOnBoard() && piece.getData() != i) {
+            if (piece.isFixedOnBoard() && piece.data() != i) {
                 throw new UnexpectedFixedPieceException();
             }
         }
+    }
+
+    private InputService() {
     }
 }

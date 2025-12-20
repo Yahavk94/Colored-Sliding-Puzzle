@@ -1,8 +1,7 @@
 package component;
 
+import constants.ComponentConstants;
 import service.PointService;
-
-import static constants.ComponentConstants.*;
 
 /**
  * This class represents a point with row and column coordinates.
@@ -11,8 +10,8 @@ import static constants.ComponentConstants.*;
  */
 public class Point {
 
-    private int r;
-    private int c;
+    private final int r;
+    private final int c;
 
     /**
      * This method constructs a new point based on the specified 1D index.
@@ -20,26 +19,8 @@ public class Point {
      * @param index the 1D index representing the position on the board.
      */
     public Point(int index) {
-        setR(PointService.toRow(index));
-        setC(PointService.toColumn(index));
-    }
-
-    /**
-     * This method sets the row coordinate of the point.
-     *
-     * @param r the new row coordinate.
-     */
-    private void setR(int r) {
-        this.r = r;
-    }
-
-    /**
-     * This method sets the column coordinate of the point.
-     *
-     * @param c the new column coordinate.
-     */
-    private void setC(int c) {
-        this.c = c;
+        r = PointService.toRow(index);
+        c = PointService.toColumn(index);
     }
 
     /**
@@ -48,7 +29,7 @@ public class Point {
      * @return true if the point is on the top row, false otherwise.
      */
     public boolean isOnTopRow() {
-        return r == TOP_ROW;
+        return r == ComponentConstants.TOP_ROW;
     }
 
     /**
@@ -66,7 +47,7 @@ public class Point {
      * @return true if the point is on the bottom row, false otherwise.
      */
     public boolean isOnBottomRow() {
-        return r == BOTTOM_ROW;
+        return r == ComponentConstants.BOTTOM_ROW;
     }
 
     /**
@@ -84,7 +65,7 @@ public class Point {
      * @return true if the point is on the leftmost column, false otherwise.
      */
     public boolean isOnLeftmostColumn() {
-        return c == LEFTMOST_COLUMN;
+        return c == ComponentConstants.LEFTMOST_COLUMN;
     }
 
     /**
@@ -102,7 +83,7 @@ public class Point {
      * @return true if the point is on the rightmost column, false otherwise.
      */
     public boolean isOnRightmostColumn() {
-        return c == RIGHTMOST_COLUMN;
+        return c == ComponentConstants.RIGHTMOST_COLUMN;
     }
 
     /**

@@ -1,6 +1,6 @@
 package service;
 
-import static component.Dimension.NUM_OF_COLS;
+import component.Dimension;
 
 /**
  * This class provides a set of methods for managing 2D indices.
@@ -9,10 +9,6 @@ import static component.Dimension.NUM_OF_COLS;
  */
 public class PointService {
 
-    private PointService() {
-        super();
-    }
-
     /**
      * This method converts a 1D index to the corresponding row index in a 2D space.
      *
@@ -20,7 +16,7 @@ public class PointService {
      * @return The row index in a 2D space.
      */
     public static int toRow(int index) {
-        return index / NUM_OF_COLS;
+        return index / Dimension.NUM_OF_COLS;
     }
 
     /**
@@ -30,6 +26,9 @@ public class PointService {
      * @return The column index in a 2D space.
      */
     public static int toColumn(int index) {
-        return index % NUM_OF_COLS;
+        return index % Dimension.NUM_OF_COLS;
+    }
+
+    private PointService() {
     }
 }

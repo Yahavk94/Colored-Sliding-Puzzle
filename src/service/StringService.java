@@ -1,5 +1,7 @@
 package service;
 
+import constants.PunctuationConstants;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,10 +12,6 @@ import java.util.stream.Collectors;
  * @author Yahav Karpel
  */
 public class StringService {
-
-    private StringService() {
-        super();
-    }
 
     /**
      * This method tokenizes the provided string into a list using the specified delimiter.
@@ -35,7 +33,10 @@ public class StringService {
      * @return A string representing the substring after the first colon, or the entire string if no colon is found.
      */
     public static String extractAfterColon(String string) {
-        int colonIndex = string.indexOf(':');
+        int colonIndex = string.indexOf(PunctuationConstants.COLON);
         return colonIndex != -1 ? string.substring(colonIndex + 1) : string;
+    }
+
+    private StringService() {
     }
 }

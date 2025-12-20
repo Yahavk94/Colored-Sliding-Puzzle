@@ -1,15 +1,14 @@
 package service;
 
 import component.Color;
+import component.Dimension;
 import component.Piece;
 import component.Point;
+import constants.ComponentConstants;
 import exception.EmptyPieceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static component.Dimension.BOARD_SIZE;
-import static constants.ComponentConstants.EMPTY_PIECE_RAW_DATA;
 
 /**
  * This class provides a set of methods for assisting the infrastructure package.
@@ -18,11 +17,7 @@ import static constants.ComponentConstants.EMPTY_PIECE_RAW_DATA;
  */
 public class InfrastructureService {
 
-    private static final List<String> targetRawBoard = createTargetRawBoard();
-
-    private InfrastructureService() {
-        super();
-    }
+    public static final List<String> targetRawBoard = createTargetRawBoard();
 
     /**
      * This method creates the target raw board.
@@ -31,20 +26,11 @@ public class InfrastructureService {
      */
     private static List<String> createTargetRawBoard() {
         List<String> targetRawBoard = new ArrayList<>();
-        for (int i = 1; i < BOARD_SIZE; i++) {
+        for (int i = 1; i < Dimension.BOARD_SIZE; i++) {
             targetRawBoard.add(Integer.toString(i));
         }
 
-        targetRawBoard.add(EMPTY_PIECE_RAW_DATA);
-        return targetRawBoard;
-    }
-
-    /**
-     * This method returns the target raw board.
-     *
-     * @return The target raw board.
-     */
-    public static List<String> getTargetRawBoard() {
+        targetRawBoard.add(ComponentConstants.EMPTY_PIECE_RAW_DATA);
         return targetRawBoard;
     }
 
@@ -75,9 +61,9 @@ public class InfrastructureService {
         int sum = 0;
         for (int i = 0; i < board.size(); i++) {
             Piece piece = board.get(i);
-            Color color = piece.getColor();
+            Color color = piece.color();
             if (color.hasPositiveCost()) {
-                sum += color.getCost() * calcManhattanDistance(piece.getData(), i);
+                sum += color.cost * calcManhattanDistance(piece.data(), i);
             }
         }
 
@@ -95,5 +81,8 @@ public class InfrastructureService {
         Point p1 = new Point(arg1);
         Point p2 = new Point(arg2);
         return p1.calcAbsRowDistance(p2) + p1.calcAbsColumnDistance(p2);
+    }
+
+    private InfrastructureService() {
     }
 }

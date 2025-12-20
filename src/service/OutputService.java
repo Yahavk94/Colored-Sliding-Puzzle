@@ -1,5 +1,6 @@
 package service;
 
+import constants.PunctuationConstants;
 import exception.UnsupportedSearchNameException;
 import infrastructure.InformedDepthFirstNode;
 import infrastructure.Node;
@@ -16,10 +17,6 @@ import java.util.List;
  * @author Yahav Karpel
  */
 public class OutputService {
-
-    private OutputService() {
-        super();
-    }
 
     /**
      * This method executes the search algorithm starting from the provided root node.
@@ -44,20 +41,14 @@ public class OutputService {
      */
     private static Searchable initSearch() {
         String searchName = InputParser.getSearchName();
-        switch (searchName.toUpperCase()) {
-            case "BFS":
-                return new BFS();
-            case "IDDFS":
-                return new IDDFS();
-            case "A*":
-                return new AStar();
-            case "IDA*":
-                return new IDAStar();
-            case "DFBNB":
-                return new DFBnB();
-        }
-
-        throw new UnsupportedSearchNameException(searchName);
+        return switch (searchName.toUpperCase()) {
+            case "BFS" -> new BFS();
+            case "IDDFS" -> new IDDFS();
+            case "A*" -> new AStar();
+            case "IDA*" -> new IDAStar();
+            case "DFBNB" -> new DFBnB();
+            default -> throw new UnsupportedSearchNameException(searchName);
+        };
     }
 
     /**
@@ -83,12 +74,12 @@ public class OutputService {
      */
     private static String createShortestPath(Node targetNode) {
         if (targetNode == null || targetNode.isRoot()) {
-            return "";
+            return PunctuationConstants.EMPTY;
         }
 
         List<String> shortestPath = new ArrayList<>();
         populateShortestPath(targetNode, shortestPath);
-        return String.join("-", shortestPath);
+        return String.join(PunctuationConstants.DASH, shortestPath);
     }
 
     /**
@@ -136,5 +127,8 @@ public class OutputService {
     public static void printExecutionTime(PrintWriter outputFile, long start) {
         double duration = (System.currentTimeMillis() - start) / 1000.0;
         outputFile.println(String.format("%.3f seconds", duration));
+    }
+
+    private OutputService() {
     }
 }

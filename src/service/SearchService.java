@@ -1,9 +1,10 @@
 package service;
 
+import component.Dimension;
 import component.GeneratingOperator;
 import component.Piece;
 import component.Point;
-import exception.UnsupportedOperatorException;
+import constants.SearchConstants;
 import infrastructure.InformedDepthFirstNode;
 import infrastructure.Node;
 import infrastructure.State;
@@ -11,19 +12,12 @@ import infrastructure.State;
 import java.util.Collections;
 import java.util.Map;
 
-import static component.Dimension.NUM_OF_COLS;
-import static constants.SearchConstants.*;
-
 /**
  * This class provides a set of methods for assisting the search package.
  *
  * @author Yahav Karpel
  */
 public class SearchService {
-
-    private SearchService() {
-        super();
-    }
 
     /**
      * This method expands the provided node based on the generating operator.
@@ -35,7 +29,7 @@ public class SearchService {
     public static InformedDepthFirstNode expandNode(Node node, GeneratingOperator generatingOperator) {
         if (generatingOperator.isNotOpposite(node.getGeneratingOperator())) {
             int nextEmptyPieceIndex = findNextEmptyPieceIndex(node, generatingOperator);
-            if (nextEmptyPieceIndex != NOT_FOUND) {
+            if (nextEmptyPieceIndex != SearchConstants.NOT_FOUND) {
                 InformedDepthFirstNode neighbor = new InformedDepthFirstNode(node, generatingOperator);
                 updateNeighbor(neighbor, nextEmptyPieceIndex);
                 return neighbor;
@@ -61,7 +55,7 @@ public class SearchService {
             }
         }
 
-        return NOT_FOUND;
+        return SearchConstants.NOT_FOUND;
     }
 
     /**
@@ -70,22 +64,15 @@ public class SearchService {
      * @param emptyPieceIndex    the index of the current empty piece.
      * @param generatingOperator the generating operator representing the move direction.
      * @return true if the move is permitted, false otherwise.
-     * @throws UnsupportedOperatorException if unsupported generating operator is encountered.
      */
     private static boolean isMovePermitted(int emptyPieceIndex, GeneratingOperator generatingOperator) {
         Point emptyPiecePoint = new Point(emptyPieceIndex);
-        switch (generatingOperator) {
-            case L:
-                return emptyPiecePoint.isNotOnRightmostColumn();
-            case U:
-                return emptyPiecePoint.isNotOnBottomRow();
-            case R:
-                return emptyPiecePoint.isNotOnLeftmostColumn();
-            case D:
-                return emptyPiecePoint.isNotOnTopRow();
-        }
-
-        throw new UnsupportedOperatorException(generatingOperator);
+        return switch (generatingOperator) {
+            case L -> emptyPiecePoint.isNotOnRightmostColumn();
+            case U -> emptyPiecePoint.isNotOnBottomRow();
+            case R -> emptyPiecePoint.isNotOnLeftmostColumn();
+            case D -> emptyPiecePoint.isNotOnTopRow();
+        };
     }
 
     /**
@@ -94,21 +81,14 @@ public class SearchService {
      * @param emptyPieceIndex    the index of the current empty piece.
      * @param generatingOperator the generating operator representing the move direction.
      * @return The index of the next empty piece.
-     * @throws UnsupportedOperatorException if unsupported generating operator is encountered.
      */
     private static int calcNextEmptyPieceIndex(int emptyPieceIndex, GeneratingOperator generatingOperator) {
-        switch (generatingOperator) {
-            case L:
-                return emptyPieceIndex + 1;
-            case U:
-                return emptyPieceIndex + NUM_OF_COLS;
-            case R:
-                return emptyPieceIndex - 1;
-            case D:
-                return emptyPieceIndex - NUM_OF_COLS;
-        }
-
-        throw new UnsupportedOperatorException(generatingOperator);
+        return switch (generatingOperator) {
+            case L -> emptyPieceIndex + 1;
+            case U -> emptyPieceIndex + Dimension.NUM_OF_COLS;
+            case R -> emptyPieceIndex - 1;
+            case D -> emptyPieceIndex - Dimension.NUM_OF_COLS;
+        };
     }
 
     /**
@@ -119,8 +99,8 @@ public class SearchService {
      */
     private static void updateNeighbor(InformedDepthFirstNode neighbor, int nextEmptyPieceIndex) {
         Piece nextEmptyPiece = neighbor.getBoard().get(nextEmptyPieceIndex);
-        neighbor.setWeight(neighbor.getWeight() + nextEmptyPiece.getColor().getCost());
-        neighbor.setEdgeTagFromParent(nextEmptyPiece.getRawData() + neighbor.getGeneratingOperator());
+        neighbor.setWeight(neighbor.getWeight() + nextEmptyPiece.color().cost);
+        neighbor.setEdgeTagFromParent(nextEmptyPiece.rawData() + neighbor.getGeneratingOperator());
         performSwap(neighbor, nextEmptyPieceIndex);
     }
 
@@ -147,19 +127,19 @@ public class SearchService {
     public static String tagNeighbor(InformedDepthFirstNode neighbor, String neighborCode, Map<String, InformedDepthFirstNode> loopAvoidance) {
         if (!loopAvoidance.containsKey(neighborCode)) {
             if (neighbor.isTarget()) {
-                return TARGET;
+                return SearchConstants.TARGET;
             }
 
-            return POTENTIAL;
+            return SearchConstants.POTENTIAL;
         }
 
         InformedDepthFirstNode node = loopAvoidance.get(neighborCode);
         if (node.isNotMarked() && neighbor.getF() < node.getF()) {
             node.mark();
-            return POTENTIAL;
+            return SearchConstants.POTENTIAL;
         }
 
-        return REDUNDANT;
+        return SearchConstants.REDUNDANT;
     }
 
     /**
@@ -171,5 +151,8 @@ public class SearchService {
      */
     public static String tagNeighbor(InformedDepthFirstNode neighbor, Map<String, InformedDepthFirstNode> loopAvoidance) {
         return tagNeighbor(neighbor, neighbor.toString(), loopAvoidance);
+    }
+
+    private SearchService() {
     }
 }

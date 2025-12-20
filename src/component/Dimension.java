@@ -17,6 +17,5 @@ public class Dimension {
     public static final int BOARD_SIZE = NUM_OF_ROWS * NUM_OF_COLS;
 
     private Dimension() {
-        super();
     }
 }

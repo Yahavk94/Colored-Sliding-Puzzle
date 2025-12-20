@@ -13,6 +13,5 @@ public class SearchConstants {
     public static final String REDUNDANT = "redundant";
 
     private SearchConstants() {
-        super();
     }
 }

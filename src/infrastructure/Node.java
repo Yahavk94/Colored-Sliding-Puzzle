@@ -1,6 +1,7 @@
 package infrastructure;
 
 import component.GeneratingOperator;
+import constants.PunctuationConstants;
 
 /**
  * This class represents a node in the search tree.
@@ -26,7 +27,7 @@ public abstract class Node extends State {
      */
     protected Node() {
         super();
-        setEdgeTagFromParent("");
+        setEdgeTagFromParent(PunctuationConstants.EMPTY);
     }
 
     /**
@@ -37,9 +38,9 @@ public abstract class Node extends State {
      */
     protected Node(Node parent, GeneratingOperator generatingOperator) {
         super(parent);
-        setWeight(parent.weight);
-        setParent(parent);
-        setGeneratingOperator(generatingOperator);
+        this.weight = parent.weight;
+        this.parent = parent;
+        this.generatingOperator = generatingOperator;
     }
 
     /**
@@ -79,30 +80,12 @@ public abstract class Node extends State {
     }
 
     /**
-     * This method sets the parent of the node.
-     *
-     * @param parent the new parent.
-     */
-    private void setParent(Node parent) {
-        this.parent = parent;
-    }
-
-    /**
      * This method returns the generating operator used to reach the node from the parent.
      *
      * @return The generating operator.
      */
     public GeneratingOperator getGeneratingOperator() {
         return generatingOperator;
-    }
-
-    /**
-     * This method sets the generating operator used to reach the node from the parent.
-     *
-     * @param generatingOperator the new generating operator.
-     */
-    private void setGeneratingOperator(GeneratingOperator generatingOperator) {
-        this.generatingOperator = generatingOperator;
     }
 
     /**

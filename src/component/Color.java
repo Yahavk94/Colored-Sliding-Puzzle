@@ -12,13 +12,13 @@ public enum Color {
     GREEN(1),
     RED(30);
 
-    private int cost;
+    public final int cost;
 
     /**
      * This method constructs a new color with a default cost.
      */
     Color() {
-        setCost(0);
+        this(0);
     }
 
     /**
@@ -27,24 +27,6 @@ public enum Color {
      * @param cost the cost associated with the new color.
      */
     Color(int cost) {
-        setCost(cost);
-    }
-
-    /**
-     * This method returns the cost of the color.
-     *
-     * @return The cost.
-     */
-    public int getCost() {
-        return cost;
-    }
-
-    /**
-     * This method sets the cost of the color.
-     *
-     * @param cost the new cost.
-     */
-    private void setCost(int cost) {
         this.cost = cost;
     }
 

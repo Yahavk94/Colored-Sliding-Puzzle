@@ -11,7 +11,7 @@ import static component.Dimension.NUM_OF_ROWS;
 public class ComponentConstants {
 
     public static final int EMPTY_PIECE_DATA = -1;
-    public static final String EMPTY_PIECE_RAW_DATA = "_";
+    public static final String EMPTY_PIECE_RAW_DATA = PunctuationConstants.UNDERSCORE;
 
     public static final int TOP_ROW = 0;
     public static final int BOTTOM_ROW = NUM_OF_ROWS - 1;
@@ -19,6 +19,5 @@ public class ComponentConstants {
     public static final int RIGHTMOST_COLUMN = NUM_OF_COLS - 1;
 
     private ComponentConstants() {
-        super();
     }
 }
