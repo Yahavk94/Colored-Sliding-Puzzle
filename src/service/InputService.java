@@ -38,22 +38,12 @@ public class InputService {
      */
     public static Piece createPiece(String rawData, Set<String> grayPieces, Set<String> redPieces) {
         try {
-            int data = parseRawData(rawData);
+            int data = Integer.parseInt(rawData) - 1;
             Color color = determinePieceColor(rawData, grayPieces, redPieces);
             return new Piece(rawData, data, color);
         } catch (NumberFormatException e) {
             return ComponentService.emptyPiece;
         }
-    }
-
-    /**
-     * This method parses the provided raw data to obtain the numeric value.
-     *
-     * @param rawData the raw data to be parsed.
-     * @return The parsed numeric value.
-     */
-    private static int parseRawData(String rawData) {
-        return Integer.parseInt(rawData) - 1;
     }
 
     /**
