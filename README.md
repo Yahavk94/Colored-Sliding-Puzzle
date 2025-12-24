@@ -23,7 +23,7 @@ Discover efficient ways to optimally solve the Colored Sliding Puzzle, using the
 Read more about these algorithms to enhance your approach in solving the puzzle.
 
 ## Input File Format
-To set up the game, open the input file and follow these steps:
+To set up the game, open any input file in the inputs folder and follow these steps:
 
 - **Algorithm Name (Line 1)** - choose your algorithm (BFS / IDDFS / A* / IDA* / DFBnB).
 - **Dimension (Line 2)** - set puzzle dimensions in NxM form, where N is the number of rows and M is the number of columns.
