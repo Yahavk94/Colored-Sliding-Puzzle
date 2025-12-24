@@ -15,7 +15,7 @@ public record Piece(String rawData, int data, Color color) {
      * @return true if the piece is empty, false otherwise.
      */
     public boolean isEmpty() {
-        return equals(ComponentService.emptyPiece);
+        return this == ComponentService.emptyPiece;
     }
 
     /**

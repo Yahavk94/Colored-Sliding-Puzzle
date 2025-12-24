@@ -31,7 +31,7 @@ public class InputParser {
      */
     private static List<String> readInputLines() {
         List<String> inputLines = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File(IOConstants.INPUT_FILE_NAME))) {
+        try (Scanner scanner = new Scanner(new File(IOConstants.INPUT_FILE_PATH))) {
             while (scanner.hasNext()) {
                 String inputLine = scanner.nextLine().trim();
                 if (!inputLine.isEmpty()) {
