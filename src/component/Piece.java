@@ -3,7 +3,7 @@ package component;
 import service.ComponentService;
 
 /**
- * This class represents a piece on the board.
+ * This record represents a piece on the board.
  *
  * @author Yahav Karpel
  */
